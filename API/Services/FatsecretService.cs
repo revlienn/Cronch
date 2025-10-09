@@ -1,6 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
+using System.Web;
 using API.DTOs;
 using API.Interfaces;
 
@@ -63,6 +64,30 @@ namespace API.Services
             )!;
 
             return food;
+
+        }
+
+        public async Task<FoodSearchResponseDto> SearchFoodAsync(string searchTerm,int pageNumber=0, int maxResults=20)
+        {
+            var tokenResponse = await GetTokenAsync();
+            using var jsonDoc = JsonDocument.Parse(tokenResponse);
+            var token = jsonDoc.RootElement.GetProperty("access_token").GetString();
+
+            var encodedQuery = HttpUtility.UrlEncode(searchTerm);
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"https://platform.fatsecret.com/rest/foods/search/v1?search_expression={encodedQuery}&format=json");
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _http.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var jsonRes = await response.Content.ReadAsStringAsync();
+            var searchResult = JsonSerializer.Deserialize<FoodSearchResponseDto>(jsonRes,
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            )!;
+
+            return searchResult;
 
         }
     }

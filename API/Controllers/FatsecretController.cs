@@ -28,5 +28,15 @@ namespace API.Controllers
             var food = await _fatsecretService.GetFoodByIdAsync(foodId);
             return food;
         }
+
+        [HttpGet("search")]
+        public async Task<ActionResult<FoodSearchResponseDto>> SearchFoodAsync(
+            [FromQuery] string query,
+            [FromQuery] int page = 0,
+            [FromQuery] int max_results = 20)
+      {
+            var result = await _fatsecretService.SearchFoodAsync(query, page, max_results);
+            return Ok(result);
+      }
     }
 }
