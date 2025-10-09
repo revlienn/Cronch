@@ -1,4 +1,5 @@
 using System.Net.Http.Headers;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Text.Json;
 using System.Web;
@@ -39,11 +40,24 @@ namespace API.Services
 
         }
 
-        public async Task<FoodDto> GetFoodByIdAsync(long foodId)
-        {
+        public async Task<string> GetAccessTokenAsync()
+      {
+         
             var tokenResponse = await GetTokenAsync();
             using var jsonDoc = JsonDocument.Parse(tokenResponse);
             var token = jsonDoc.RootElement.GetProperty("access_token").GetString();
+
+         if (string.IsNullOrEmpty(token))
+         {
+                throw new InvalidOperationException("Unable to retrieve token");
+         }
+
+            return token;
+      }
+
+        public async Task<FoodDto> GetFoodByIdAsync(long foodId)
+        {
+            var token = await GetAccessTokenAsync();
 
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
@@ -69,9 +83,7 @@ namespace API.Services
 
         public async Task<FoodSearchResponseDto> SearchFoodAsync(string searchTerm,int pageNumber=0, int maxResults=20)
         {
-            var tokenResponse = await GetTokenAsync();
-            using var jsonDoc = JsonDocument.Parse(tokenResponse);
-            var token = jsonDoc.RootElement.GetProperty("access_token").GetString();
+            var token = await GetAccessTokenAsync();
 
             var encodedQuery = HttpUtility.UrlEncode(searchTerm);
             var request = new HttpRequestMessage(
