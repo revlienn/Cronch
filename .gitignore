@@ -492,3 +492,5 @@ desktop.ini
 # personalised settings
 /notes
 .vscode
+*.drawio
+*.drawio.dtmp
