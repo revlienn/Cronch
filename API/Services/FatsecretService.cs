@@ -13,6 +13,8 @@ namespace API.Services
         private readonly HttpClient _http;
         private readonly string _clientId = string.Empty;
         private readonly string _clientSecret = string.Empty;
+        private string? _cachedToken;
+        private DateTime _tokenExpiry;
 
         public FatsecretService(IConfiguration config, HttpClient http)
         {
@@ -42,17 +44,27 @@ namespace API.Services
 
         public async Task<string> GetAccessTokenAsync()
       {
-         
+        if(!string.IsNullOrEmpty(_cachedToken) && DateTime.UtcNow < _tokenExpiry)
+         {
+                return _cachedToken;
+         }
             var tokenResponse = await GetTokenAsync();
             using var jsonDoc = JsonDocument.Parse(tokenResponse);
-            var token = jsonDoc.RootElement.GetProperty("access_token").GetString();
+            var root = jsonDoc.RootElement;
 
-         if (string.IsNullOrEmpty(token))
-         {
+            var token = root.GetProperty("access_token").GetString();
+            var expiresIn = root.TryGetProperty("expires_in", out var expProp) ? expProp.GetInt32()
+                : 86400;
+
+            if (string.IsNullOrEmpty(token))
+            {
                 throw new InvalidOperationException("Unable to retrieve token");
-         }
+            }
 
-            return token;
+            _cachedToken = token;
+            _tokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60);
+
+            return _cachedToken;
       }
 
         public async Task<FoodDto> GetFoodByIdAsync(long foodId)
