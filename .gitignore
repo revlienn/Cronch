@@ -488,3 +488,7 @@ appsettings.Development.json
 
 # desktop icon
 desktop.ini
+
+# personalised settings
+/notes
+.vscode

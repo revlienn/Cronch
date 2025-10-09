@@ -1,5 +1,7 @@
 using System.Net.Http.Headers;
 using System.Text;
+using System.Text.Json;
+using API.DTOs;
 using API.Interfaces;
 
 namespace API.Services
@@ -7,13 +9,13 @@ namespace API.Services
     public class FatsecretService : IFatsecretRepository
     {
         private readonly HttpClient _http;
-        private readonly string _clientId=string.Empty;
-        private readonly string _clientSecret=string.Empty;
+        private readonly string _clientId = string.Empty;
+        private readonly string _clientSecret = string.Empty;
 
         public FatsecretService(IConfiguration config, HttpClient http)
         {
-            _clientId = config["FatSecret:ClientId"]?? string.Empty;
-            _clientSecret = config["FatSecret:ClientSecret"]?? string.Empty;
+            _clientId = config["FatSecret:ClientId"] ?? string.Empty;
+            _clientSecret = config["FatSecret:ClientSecret"] ?? string.Empty;
             _http = http;
         }
         public async Task<string> GetTokenAsync()
@@ -33,6 +35,34 @@ namespace API.Services
             var response = await _http.SendAsync(request);
             response.EnsureSuccessStatusCode();
             return await response.Content.ReadAsStringAsync();
+
+        }
+
+        public async Task<FoodDto> GetFoodByIdAsync(long foodId)
+        {
+            var tokenResponse = await GetTokenAsync();
+            using var jsonDoc = JsonDocument.Parse(tokenResponse);
+            var token = jsonDoc.RootElement.GetProperty("access_token").GetString();
+
+            var request = new HttpRequestMessage(
+                HttpMethod.Get,
+                $"https://platform.fatsecret.com/rest/food/v4?method=food.get.v4&food_id={foodId}&format=json"
+                );
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+            var response = await _http.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+
+            var jsonRes = await response.Content.ReadAsStringAsync();
+            using var foodJson = JsonDocument.Parse(jsonRes);
+            var foodEl = foodJson.RootElement.GetProperty("food");
+
+            var food = JsonSerializer.Deserialize<FoodDto>(
+                foodEl.GetRawText(),
+                new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
+            )!;
+
+            return food;
 
         }
     }
