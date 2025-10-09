@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace API.Interfaces
 {
-    public interface IFatsecretService
+    public interface IFatsecretRepository
     {
         Task<string> GetTokenAsync();
     }

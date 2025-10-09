@@ -1,14 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http.Headers;
 using System.Text;
-using System.Threading.Tasks;
 using API.Interfaces;
 
 namespace API.Services
 {
-    public class FatsecretService : IFatsecretService
+    public class FatsecretService : IFatsecretRepository
     {
         private readonly HttpClient _http;
         private readonly string _clientId=string.Empty;

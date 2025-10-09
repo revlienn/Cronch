@@ -7,9 +7,9 @@ namespace API.Controllers
     [Route("api/[controller]")]
     public class FatsecretController : ControllerBase
     {
-        private readonly IFatsecretService _fatsecretService;
+        private readonly IFatsecretRepository _fatsecretService;
 
-        public FatsecretController(IFatsecretService fatsecretService)
+        public FatsecretController(IFatsecretRepository fatsecretService)
         {
             _fatsecretService = fatsecretService;
         }
