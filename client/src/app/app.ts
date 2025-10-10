@@ -1,4 +1,5 @@
-import { Component, signal } from '@angular/core';
+import { HttpBackend, HttpClient } from '@angular/common/http';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -7,6 +8,11 @@ import { RouterOutlet } from '@angular/router';
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  protected readonly title = signal('client');
+export class App implements OnInit {
+  protected readonly title = signal('Hello Friday!');
+  private http=inject(HttpClient);
+
+  ngOnInit(): void {
+    this.http.get('https://localhost:5001/api/food/token').subscribe((res)=>console.log(res));
+  }
 }
