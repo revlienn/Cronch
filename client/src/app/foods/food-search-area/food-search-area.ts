@@ -5,7 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FoodService } from '../../services/food-service';
 import { map } from 'rxjs';
-import { Food, FoodSearchResult } from '../../../types/FoodSearchResult';
+import { Food, Foods, FoodSearchResult } from '../../../types/FoodSearchResult';
 import { JsonPipe } from '@angular/common';
 
 @Component({
