@@ -7,10 +7,11 @@ import { FoodService } from '../../services/food-service';
 import { map } from 'rxjs';
 import { Food, Foods, FoodSearchResult } from '../../../types/FoodSearchResult';
 import { JsonPipe } from '@angular/common';
+import { SearchResultList } from '../search-result-list/search-result-list';
 
 @Component({
   selector: 'app-food-search-area',
-  imports: [MatCardModule,MatInputModule,MatIconModule,ReactiveFormsModule,JsonPipe],
+  imports: [MatCardModule,MatInputModule,MatIconModule,ReactiveFormsModule,JsonPipe,SearchResultList],
   templateUrl: './food-search-area.html',
   styleUrl: './food-search-area.css'
 })

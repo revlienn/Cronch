@@ -1,0 +1,10 @@
+@if (result()?.foods?.total_results!='0'){
+<h1>You have {{result()?.foods?.total_results}} results!</h1>
+}@else {
+<h5 class="italic">No result, please check your search keyword</h5>
+}
+
+
+@for(item of result()?.foods?.food;track item.food_id){
+<app-food-card [item]="item"></app-food-card>
+}

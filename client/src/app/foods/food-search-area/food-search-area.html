@@ -14,8 +14,4 @@
    </form>
 </div>
 
-@if(searchResult(); as result){
-   @for(f of result.foods.food;track f.food_id){
-      <p>{{f.food_url}}</p>
-   }
-}
+<app-search-result-list [result]="searchResult()"></app-search-result-list>
