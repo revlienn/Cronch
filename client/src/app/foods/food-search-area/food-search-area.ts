@@ -17,7 +17,7 @@ import { JsonPipe } from '@angular/common';
 export class FoodSearchArea {
 
   private foodService=inject(FoodService);
-  searchResult=signal<Food[]|null>(null)
+  searchResult=signal<FoodSearchResult|null>(null)
 
   searchTerm=new FormControl('apple',{
     validators:[Validators.required,Validators.minLength(4)]
@@ -31,7 +31,7 @@ export class FoodSearchArea {
     if(this.searchForm.valid){
       const term=this.searchTerm.value?.trim();
       if(term){
-        this.foodService.searchFood(term).pipe(map((res)=>res.foods.food)).subscribe((res)=>this.searchResult.set(res))
+        this.foodService.searchFood(term).subscribe((res)=>this.searchResult.set(res))
 
       }
     }

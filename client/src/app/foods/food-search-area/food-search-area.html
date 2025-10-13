@@ -14,8 +14,8 @@
    </form>
 </div>
 
-<div>
-   @for(s of searchResult();track $index){
-      <div>{{s|json}}</div>
+@if(searchResult(); as result){
+   @for(f of result.foods.food;track f.food_id){
+      <p>{{f.food_url}}</p>
    }
-</div>
+}
