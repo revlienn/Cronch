@@ -4,14 +4,12 @@ import {MatInputModule} from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FoodService } from '../../services/food-service';
-import { map } from 'rxjs';
-import { Food, Foods, FoodSearchResult } from '../../../types/FoodSearchResult';
-import { JsonPipe } from '@angular/common';
+import { FoodSearchResult } from '../../../types/FoodSearchResult';
 import { SearchResultList } from '../search-result-list/search-result-list';
 
 @Component({
   selector: 'app-food-search-area',
-  imports: [MatCardModule,MatInputModule,MatIconModule,ReactiveFormsModule,JsonPipe,SearchResultList],
+  imports: [MatCardModule,MatInputModule,MatIconModule,ReactiveFormsModule,SearchResultList],
   templateUrl: './food-search-area.html',
   styleUrl: './food-search-area.css'
 })

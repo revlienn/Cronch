@@ -5,6 +5,8 @@
 }
 
 
-@for(item of result()?.foods?.food;track item.food_id){
-<app-food-card [item]="item"></app-food-card>
+<div class="grid gap-4 grid-cols-4 items-stretch">
+   @for(item of result()?.foods?.food;track item.food_id){
+<app-food-card [item]="item" class="h-full"></app-food-card>
 }
+</div>
