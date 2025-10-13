@@ -1,0 +1,5 @@
+@reference "tailwindcss";
+
+:host ::ng-deep .mat-mdc-card{
+   @apply rounded-xl bg-white/90 backdrop-blur-sm shadow-md hover:shadow-xl
+}
