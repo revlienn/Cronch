@@ -5,7 +5,7 @@ import {MatIconModule} from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FoodService } from '../../services/food-service';
 import { map } from 'rxjs';
-import { Food, FoodSearchResult } from '../../../types/FoodSearchResult';
+import { Food, Foods, FoodSearchResult } from '../../../types/FoodSearchResult';
 import { JsonPipe } from '@angular/common';
 
 @Component({
@@ -17,7 +17,7 @@ import { JsonPipe } from '@angular/common';
 export class FoodSearchArea {
 
   private foodService=inject(FoodService);
-  searchResult=signal<Food[]|null>(null)
+  searchResult=signal<FoodSearchResult|null>(null)
 
   searchTerm=new FormControl('apple',{
     validators:[Validators.required,Validators.minLength(4)]
@@ -31,7 +31,7 @@ export class FoodSearchArea {
     if(this.searchForm.valid){
       const term=this.searchTerm.value?.trim();
       if(term){
-        this.foodService.searchFood(term).pipe(map((res)=>res.foods.food)).subscribe((res)=>this.searchResult.set(res))
+        this.foodService.searchFood(term).subscribe((res)=>this.searchResult.set(res))
 
       }
     }
