@@ -36,6 +36,7 @@ namespace API.Controllers
             [FromQuery] int max_results = 20)
       {
             var result = await _fatsecretService.SearchFoodAsync(query, page, max_results);
+            
             return Ok(result);
       }
     }

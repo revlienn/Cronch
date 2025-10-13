@@ -43,11 +43,11 @@ namespace API.Services
         }
 
         public async Task<string> GetAccessTokenAsync()
-      {
-        if(!string.IsNullOrEmpty(_cachedToken) && DateTime.UtcNow < _tokenExpiry)
-         {
+        {
+            if (!string.IsNullOrEmpty(_cachedToken) && DateTime.UtcNow < _tokenExpiry)
+            {
                 return _cachedToken;
-         }
+            }
             var tokenResponse = await GetTokenAsync();
             using var jsonDoc = JsonDocument.Parse(tokenResponse);
             var root = jsonDoc.RootElement;
@@ -65,7 +65,7 @@ namespace API.Services
             _tokenExpiry = DateTime.UtcNow.AddSeconds(expiresIn - 60);
 
             return _cachedToken;
-      }
+        }
 
         public async Task<FoodDto> GetFoodByIdAsync(long foodId)
         {
@@ -93,7 +93,7 @@ namespace API.Services
 
         }
 
-        public async Task<FoodSearchResponseDto> SearchFoodAsync(string searchTerm,int pageNumber=0, int maxResults=20)
+        public async Task<FoodSearchResponseDto> SearchFoodAsync(string searchTerm, int pageNumber = 0, int maxResults = 20)
         {
             var token = await GetAccessTokenAsync();
 
@@ -110,6 +110,16 @@ namespace API.Services
             var searchResult = JsonSerializer.Deserialize<FoodSearchResponseDto>(jsonRes,
                 new JsonSerializerOptions { PropertyNameCaseInsensitive = true }
             )!;
+
+            if (searchResult.foods == null)
+            {
+                searchResult.foods = new FoodsDto();
+            }
+
+            if (searchResult.foods.food == null)
+            {
+                searchResult.foods.food = new List<FoodSummaryDto>();
+            }
 
             return searchResult;
 
