@@ -1,15 +1,20 @@
-import { Component, input, Input, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { Food } from '../../../types/FoodSearchResult';
+import { Food as FoodItem} from '../../../types/Food';
 import { JsonPipe } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
+import { FoodService } from '../../services/food-service';
 
 @Component({
   selector: 'app-food-card',
-  imports: [MatCardModule],
+  imports: [MatCardModule,JsonPipe],
   templateUrl: './food-card.html',
   styleUrl: './food-card.css'
 })
 export class FoodCard implements OnInit{
+
+  private foodService=inject(FoodService);
+  itemDetails!:FoodItem;
 
   item=input.required<Food>();
   private foodId:number=0;
@@ -23,6 +28,12 @@ export class FoodCard implements OnInit{
     this.getDetails(this.item().food_description);
     this.foodId=Number(this.item().food_id);
     console.log(this.foodId);
+    this.foodService.getFoodById(this.foodId).subscribe
+      ((res)=>{
+        this.itemDetails=res;
+        console.log(this.itemDetails);
+      });
+    
   }
 
   getDetails(description:string){

@@ -93,14 +93,14 @@ namespace API.Services
 
         }
 
-        public async Task<FoodSearchResponseDto> SearchFoodAsync(string searchTerm, int pageNumber = 0, int maxResults = 20)
+        public async Task<FoodSearchResponseDto> SearchFoodAsync(string searchTerm, int pageNumber = 0, int maxResults = 2)
         {
             var token = await GetAccessTokenAsync();
 
             var encodedQuery = HttpUtility.UrlEncode(searchTerm);
             var request = new HttpRequestMessage(
                 HttpMethod.Get,
-                $"https://platform.fatsecret.com/rest/foods/search/v1?search_expression={encodedQuery}&format=json");
+                $"https://platform.fatsecret.com/rest/foods/search/v1?search_expression={encodedQuery}&page_number={pageNumber}&max_results={maxResults}&format=json");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             var response = await _http.SendAsync(request);
