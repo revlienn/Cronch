@@ -6,14 +6,33 @@
         }
     </mat-card-header>
     <mat-card-content class="flex-gro leading-relaxed">
-        <span class="text-rose-600 font-semibold pe-2">{{calories}}cal </span> <span class="text-blue-500 font-semibold">{{protein}}g protein</span><br>
+        <span class="text-rose-600 font-semibold pe-2">{{calories}}cal </span> <span
+           class="text-blue-500 font-semibold">{{protein}}g protein</span><br>
         <span class="text-gray-500 mt-1 text-sm">{{unit}}</span>
-        
+
+        <button class="btn bg-none w-full text-start" (click)="getFoodDetails()">
+            <div class="flex">Other Portions
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+               stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                   d="M8.25 15 12 18.75 15.75 15m-7.5-6L12 5.25 15.75 9" />
+            </svg></div>
+
+
+        </button>
+        @if(options){
+            @for(opt of options;track $index){
+            <p>{{opt.servingDescription}} ({{opt.amount}}{{opt.unit}})</p>
+            }
+            
+        }
+
+
     </mat-card-content>
     <mat-card-actions align="end">
-        <button mat-button class="btn btn-primary">click me</button>
+        <!-- <button mat-button class="btn btn-primary" (click)="getFoodDetails()">Other serving sizes</button> -->
     </mat-card-actions>
     <mat-card-footer>
+
     </mat-card-footer>
 </mat-card>
-

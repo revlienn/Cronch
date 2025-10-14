@@ -30,7 +30,7 @@ export class FoodSearchArea {
     if(this.searchForm.valid){
       const term=this.searchTerm.value?.trim();
       if(term){
-        this.foodService.searchFood(term,0,2).subscribe((res)=>this.searchResult.set(res))
+        this.foodService.searchFood(term,0,1).subscribe((res)=>this.searchResult.set(res))
 
       }
     }
