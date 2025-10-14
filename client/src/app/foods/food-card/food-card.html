@@ -10,7 +10,7 @@
            class="text-blue-500 font-semibold">{{protein}}g protein</span><br>
         <span class="text-gray-500 mt-1 text-sm">{{unit}}</span>
 
-        <button class="btn bg-none w-full text-start" (click)="getFoodDetails()">
+        <!-- <button class="btn bg-none w-full text-start" (click)="getFoodDetails()">
             <div class="flex">Other Portions
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                stroke="currentColor" class="size-6">
@@ -25,12 +25,12 @@
             <p>{{opt.servingDescription}} ({{opt.amount}}{{opt.unit}})</p>
             }
             
-        }
+        } -->
 
 
     </mat-card-content>
     <mat-card-actions align="end">
-        <!-- <button mat-button class="btn btn-primary" (click)="getFoodDetails()">Other serving sizes</button> -->
+        <button mat-button class="btn btn-primary">+</button>
     </mat-card-actions>
     <mat-card-footer>
 
