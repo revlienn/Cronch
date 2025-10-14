@@ -42,25 +42,7 @@ export class FoodCard implements OnInit {
     this.calories = calMatch ? Number(calMatch[1]) : 0;
     this.protein = proteinMatch ? parseFloat(proteinMatch[1].replace(',', '.')) : 0;
   }
-
-  getServings(){
-    if(!this.servingsLoaded){
-      this.getFoodDetails();
-      this.servingsLoaded=true;
-    }
-  }
-
-  getFoodDetails() {
-    if(!this.servingsLoaded){this.foodService.getFoodById(this.foodId).pipe(
-      tap(res=>this.itemDetails=res),
-      map(res => 
-        res.servings.serving.map(s => ({
-          servingDescription:s.serving_description,
-        amount: s.metric_serving_amount,
-        unit: s.metric_serving_unit
-      })))
-    ).subscribe((res) => this.options = res)}
     
 
-  }
+  
 }
