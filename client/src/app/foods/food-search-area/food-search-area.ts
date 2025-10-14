@@ -17,6 +17,7 @@ export class FoodSearchArea {
 
   private foodService=inject(FoodService);
   searchResult=signal<FoodSearchResult|null>(null)
+  searched=signal<boolean>(false);
 
   searchTerm=new FormControl('apple',{
     validators:[Validators.required,Validators.minLength(4)]
@@ -28,6 +29,7 @@ export class FoodSearchArea {
 
   search(){
     if(this.searchForm.valid){
+      this.searched.set(true);
       const term=this.searchTerm.value?.trim();
       if(term){
         this.foodService.searchFood(term).subscribe((res)=>this.searchResult.set(res))

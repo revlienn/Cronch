@@ -8,7 +8,7 @@ import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-food-card',
-  imports: [MatCardModule, JsonPipe],
+  imports: [MatCardModule],
   templateUrl: './food-card.html',
   styleUrl: './food-card.css'
 })
