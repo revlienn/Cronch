@@ -18,7 +18,7 @@
 
 
 <div
-   class="grid gap-4 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-stretch overflow-y-auto overflow-x-hidden max-h-[70vh] shadow-xl">
+   class="grid gap-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-stretch overflow-y-auto overflow-x-hidden max-h-[70vh] shadow-xl">
   @for(item of result()?.foods?.food;track item.food_id){
   <app-food-card [item]="item" class="h-full"></app-food-card>
   }

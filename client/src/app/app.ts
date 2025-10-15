@@ -7,10 +7,11 @@ import { Food } from '../types/Food';
 import { JsonPipe } from '@angular/common';
 import { FoodSearchResult } from '../types/FoodSearchResult';
 import { FoodSearchArea } from './foods/food-search-area/food-search-area';
+import { Cart } from './foods/cart/cart';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,MatButtonModule,FoodSearchArea],
+  imports: [RouterOutlet,MatButtonModule,FoodSearchArea,Cart],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
