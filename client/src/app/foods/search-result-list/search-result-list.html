@@ -1,19 +1,20 @@
-
+@if(busyService.requestCount()===0){
   @if(resultLength()===0){
-  <p class="italic text-red-500 text-lg">
-    No result, please check your search keyword
-  </p>
-  }@else if(resultLength()>100){
-  <p class="text-xl font-bold text-gray-700">
-    {{ resultLength() }} results
-  </p>
-  }@else{
-  <p class="text-xl font-bold text-gray-700">
-    100+ results
-  </p>
-  }
+    <p class="italic text-red-500 text-lg">
+      No result, please check your search keyword
+    </p>
+    }@else if(lessThan100()){
+    <p class="text-xl font-bold text-gray-700">
+      {{ resultLength() }} results
+    </p>
+    }@else{
+    <p class="text-xl font-bold text-gray-700">
+      100+ results
+    </p>
+}}
 
-@if(busyService.requestCount()>0){<div class="progress-6"></div>}
+
+@if(busyService.requestCount()>0){<div class="progress-6 mt-2"></div>}
 
 
 <div
