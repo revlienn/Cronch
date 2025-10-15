@@ -2,8 +2,8 @@
    <h2 class="font-bold text-xl text-center text-white">Search Food</h2>
 
    <form class="flex items-stretch justify-center gap-2 sm:flex" [formGroup]="searchForm" (ngSubmit)="search()">
-      <input [formControl]="searchTerm" type="text" placeholder="Ex.apple" class="border border-gray-400 rounded-xl px-4 py-2 focus:outline-none focus:ring-yellow-300 focus:ring-3 bg-white text-gray-800">
-      <button type="submit" [disabled]="!searchForm.valid" class=" bg-blue-600 text-white focus:ring-yellow-300 focus:ring-3 flex items-center justify-center p-2" style="border-radius: 1rem;">
+      <input [formControl]="searchTerm" type="text" placeholder="Ex.apple" class="border border-gray-400 rounded-xl px-4 py-2 focus:outline-none  focus:shadow-lg focus:shadow-rose-700 bg-white text-gray-800 transition duration-150 ease-in-out">
+      <button type="submit" [disabled]="!searchForm.valid" class=" bg-blue-600 text-white hover:bg-blue-800 flex items-center justify-center p-2" style="border-radius: 1rem;">
          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="3"
             stroke="currentColor" class="w-10 h-5">
             <path stroke-linecap="round" stroke-linejoin="round"
