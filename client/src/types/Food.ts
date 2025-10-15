@@ -33,3 +33,14 @@ export type Serving = {
    calcium: string
    iron: string
 }
+
+export type FoodCardFacts={
+   id:number
+   name:string
+   unit:string
+   calories:number
+   protein:number
+   fat:number
+   carbs:number
+   brand?:string
+}

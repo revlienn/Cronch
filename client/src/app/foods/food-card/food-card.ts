@@ -1,10 +1,7 @@
-import { Component, inject, input, OnInit } from '@angular/core';
+import { Component, input, OnInit } from '@angular/core';
 import { Food } from '../../../types/FoodSearchResult';
-import { Food as FoodItem } from '../../../types/Food';
-import { JsonPipe } from '@angular/common';
+import { FoodCardFacts } from '../../../types/Food';
 import { MatCardModule } from '@angular/material/card';
-import { FoodService } from '../../services/food-service';
-import { map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-food-card',
@@ -14,35 +11,41 @@ import { map, tap } from 'rxjs';
 })
 export class FoodCard implements OnInit {
 
-  private foodService = inject(FoodService);
-  itemDetails!: FoodItem;
-
   item = input.required<Food>();
-  private foodId: number = 0;
-  protected unit: string = '';
-  protected calories: number = 0;
-  protected protein: number = 0;
-  options: { servingDescription:string, amount: string, unit: string }[] = [];
-  servingsLoaded:boolean=false;
+  protected itemDetails?:FoodCardFacts;
 
   ngOnInit(): void {
     this.getDetails(this.item().food_description);
-    this.foodId = Number(this.item().food_id);
   }
 
-  ngAfterViewInit(): void {
-  }
-
-  getDetails(description: string) {
+  getDetails(description: string): void {
     const unitMatch = description.match(/^(Per [^-]+)/)
     const calMatch = description.match(/Calories: \s*(\d+)/);
     const proteinMatch = description.match(/Protein:\s*([\d.,]+)/i);
+    const fatMatch = description.match(/Fat:\s*([\d.,]+)/i);
+    const carbsMatch = description.match(/Carbs:\s*([\d.,]+)/i);
 
-    this.unit = unitMatch ? unitMatch[1].toString().trimEnd().toLowerCase() : '';
-    this.calories = calMatch ? Number(calMatch[1]) : 0;
-    this.protein = proteinMatch ? parseFloat(proteinMatch[1].replace(',', '.')) : 0;
+    this.itemDetails= {
+      id: Number(this.item().food_id),
+      name: this.item().food_name,
+      brand: this.item().brand_name || 'Generic',
+      unit: unitMatch ? unitMatch[1].toString().trimEnd().toLowerCase() : '',
+      calories: calMatch ? Number(calMatch[1]) : 0,
+      protein: proteinMatch ? parseFloat(proteinMatch[1].replace(',', '.')) : 0,
+      fat: fatMatch ? parseFloat(fatMatch[1].replace(',', '.')) : 0,
+      carbs: carbsMatch ? parseFloat(carbsMatch[1].replace(',', '.')) : 0
+    }
   }
-    
 
-  
+  addToList() {
+    const storage=localStorage.getItem('items');
+    const list:FoodCardFacts[]=storage?JSON.parse(storage):[];
+
+    list.push(this.itemDetails!);
+
+    localStorage.setItem('items',JSON.stringify(list));
+  }
+
+
+
 }

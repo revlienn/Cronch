@@ -9,12 +9,10 @@ export class BusyService {
 
   busy(){
     this.requestCount.update(currentCount=>currentCount+1);
-    console.log(`💫 {{requestCount()}} BUSY 🔴`);
   }
 
   idle(){
     this.requestCount.update(currentCount=>currentCount-1);
-    console.log(`💫 {{requestCount()}} IDLE 🟢`);
   }
   
 }
