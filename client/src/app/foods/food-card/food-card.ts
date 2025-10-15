@@ -1,7 +1,8 @@
-import { Component, input, OnInit } from '@angular/core';
+import { Component, inject, input, OnInit } from '@angular/core';
 import { Food } from '../../../types/FoodSearchResult';
 import { FoodCardFacts } from '../../../types/Food';
 import { MatCardModule } from '@angular/material/card';
+import { FoodService } from '../../services/food-service';
 
 @Component({
   selector: 'app-food-card',
@@ -12,7 +13,8 @@ import { MatCardModule } from '@angular/material/card';
 export class FoodCard implements OnInit {
 
   item = input.required<Food>();
-  protected itemDetails?:FoodCardFacts;
+  protected itemDetails!:FoodCardFacts;
+  private foodService=inject(FoodService);
 
   ngOnInit(): void {
     this.getDetails(this.item().food_description);
@@ -38,12 +40,7 @@ export class FoodCard implements OnInit {
   }
 
   addToList() {
-    const storage=localStorage.getItem('items');
-    const list:FoodCardFacts[]=storage?JSON.parse(storage):[];
-
-    list.push(this.itemDetails!);
-
-    localStorage.setItem('items',JSON.stringify(list));
+    this.foodService.addItemtoList(this.itemDetails);
   }
 
 
