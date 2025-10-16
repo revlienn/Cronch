@@ -1,14 +1,14 @@
 <mat-card class="h-full hover:scale-[1.02] transition-transform duration-200 p-2">
     <mat-card-header class="flex flex-col h-full">
-        <mat-card-title class="text-gray-900">{{itemDetails?.name}}</mat-card-title>
+        <mat-card-title class="text-gray-900">{{itemDetails.name}}</mat-card-title>
         @if(item().brand_name;as brand){
         <span class="italic text-sm text-gray-500">from {{brand}}</span>
         }
     </mat-card-header>
     <mat-card-content class="flex-gro leading-relaxed">
-        <span class="text-rose-600 font-semibold pe-2">{{itemDetails?.calories}}cal </span> <span
-           class="text-blue-500 font-semibold">{{itemDetails?.protein}}g protein</span><br>
-        <span class="text-gray-500 mt-1 text-sm">{{itemDetails?.unit}}</span>
+        <span class="text-rose-600 font-semibold pe-2">{{itemDetails.calories}}cal </span> <span
+           class="text-blue-500 font-semibold">{{itemDetails.protein}}g protein</span><br>
+        <span class="text-gray-500 mt-1 text-sm">{{itemDetails.unit}}</span>
 
 
     </mat-card-content>

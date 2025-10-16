@@ -1,12 +1,25 @@
 <div class="border-2 border-blue-300 md:h-[90vh] w-full">
-   <h5>Food Diary</h5>
+   <h5 class="text-center text-gray-800">Food Diary</h5>
    @if(foodService.list().length!=0){
-   <ol>
-      @for(item of foodService.list();track item.id){
-      <li>{{item.name}}</li>
+   <div class="flex flex-col">
+      @for(item of foodService.list();track $index){
+      <span class="text-gray-800">{{item.name}}</span>
       }
-   </ol>
+      <div class="bottom-0 flex flex-col">
+         <span class="text-rose-600 font-semibold">{{total().calories}}cal</span>
+         <span class="text-blue-500 font-semibold">{{total().protein}}g</span>
+      </div>
+   </div>
+
+
+
    }
+
+   @if(foodService.list().length==0)
+   {
+   <span class="italic text-gray-500 text-sm text-center">Add items to start</span>
+   }
+
 
    @if(foodService.list().length>0){<div
       class="border-rose-400 border-1 w-full flex items-center justify-center gap-2 p-2 text-rose-500 hover:bg-rose-600 hover:text-white rounded-xl"
