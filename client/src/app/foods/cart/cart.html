@@ -4,7 +4,7 @@
    <div class="flex flex-col h-full justify-between">
       <div
          class="flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent overflow-x-hidden">
-         @for(item of groupedItems();track item.id){
+         @for(item of foodService.groupedList();track item.id){
          <div class="flex flex-col">
             <span class="text-gray-800">{{item.name}} x{{item.quantity}}</span>
             <div class="flex">

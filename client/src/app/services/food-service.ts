@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { effect, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../environments/environment';
-import {Food, FoodCardFacts} from '../../types/Food';
+import {Food, FoodCardFacts, FoodCartItem} from '../../types/Food';
 import { FoodSearchResult } from '../../types/FoodSearchResult';
 
 @Injectable({
@@ -15,11 +15,13 @@ export class FoodService {
   public requestMade=signal<boolean>(false);
 
   public list=signal<FoodCardFacts[]>([]);
+  public groupedList=signal<FoodCartItem[]>([]);
 
   constructor(){
     const storedList=localStorage.getItem('items');
     if(storedList){
       this.list.set(JSON.parse(storedList));
+      this.updateCartGroup();
     }
 
     effect(()=>{
@@ -39,12 +41,33 @@ export class FoodService {
 
   addItemtoList(newItem:FoodCardFacts){
     this.list.update((currentList)=>[...currentList,newItem])
+    this.updateCartGroup();
+  }
+
+  updateCartGroup(){
+    const currentCartItems=this.list();
+    const currentGroupedItems:FoodCartItem[]=[];
+
+    for(const item of currentCartItems){
+      const existing=currentGroupedItems.find(i=>i.id==item.id);
+      if(existing){
+        existing.quantity+=1
+      }else(currentGroupedItems.push({
+        id:item.id,
+        quantity:1,
+        name:item.name,
+        protein:item.protein,
+        calories:item.calories
+      }))
+    }
+
+    this.groupedList.set(currentGroupedItems);
   }
 
   deleteGroup(id:number){
-    const currentGroup=this.list();
-    const updatedGroup=currentGroup.filter(item=>item.id!==id);
-    this.list.set(updatedGroup);
+    const newUngroupedList=this.list().filter(item=>item.id!==id);
+    this.list.set(newUngroupedList);
+    this.updateCartGroup();
   }
 
   clearList(){
