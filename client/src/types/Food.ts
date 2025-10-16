@@ -44,3 +44,11 @@ export type FoodCardFacts={
    carbs:number
    brand?:string
 }
+
+export type FoodCartItem={
+   id:number
+   name:string
+   quantity:number
+   calories:number
+   protein:number
+}
