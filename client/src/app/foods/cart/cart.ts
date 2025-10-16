@@ -27,6 +27,7 @@ export class Cart {
       const currentList=this.foodService.list();
       const grouped=this.getGroupQuantity(currentList);
       this.groupedItems.set(grouped);
+      this.total();
     })
   }
 
@@ -43,5 +44,9 @@ export class Cart {
     }
 
     return grouped
+  }
+
+  deleteGroup(id:number){
+    this.foodService.deleteGroup(id);
   }
 }

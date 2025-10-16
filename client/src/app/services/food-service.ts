@@ -41,6 +41,12 @@ export class FoodService {
     this.list.update((currentList)=>[...currentList,newItem])
   }
 
+  deleteGroup(id:number){
+    const currentGroup=this.list();
+    const updatedGroup=currentGroup.filter(item=>item.id!==id);
+    this.list.set(updatedGroup);
+  }
+
   clearList(){
     this.list.set([]);
   }
