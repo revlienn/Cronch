@@ -28,3 +28,6 @@ export class Cart {
     this.foodService.deleteGroup(id);
   }
 }
+
+// CART LAYOUT
+// CARD LAYOUT
