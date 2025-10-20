@@ -1,7 +1,8 @@
-import { Component, computed, effect, inject, input, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, Input, input, OnInit, signal } from '@angular/core';
 import { FoodSearchResult } from '../../../types/FoodSearchResult';
 import { FoodCard } from '../food-card/food-card';
 import { BusyService } from '../../services/busy-service';
+import { FoodService } from '../../services/food-service';
 
 @Component({
   selector: 'app-search-result-list',
@@ -11,7 +12,9 @@ import { BusyService } from '../../services/busy-service';
 })
 export class SearchResultList {
   protected busyService = inject(BusyService);
+  protected foodService=inject(FoodService);
   protected lessThan100=signal<boolean>(false);
+  @Input() cartOpen=false;
 
   result = input.required<FoodSearchResult | null>();
   resultLength = computed(() => {

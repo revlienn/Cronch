@@ -17,6 +17,7 @@ export class FoodService {
 
   public list = signal<FoodCardFacts[]>([]);
   public groupedList = signal<FoodCartItem[]>([]);
+  public cartOpen=signal<boolean>(false);
 
   constructor() {
     const storedList = localStorage.getItem('items');
@@ -122,6 +123,10 @@ export class FoodService {
 
   clearList() {
     this.list.set([]);
+  }
+
+  cartToggleSignal(){
+    this.cartOpen.update(status=>!status);
   }
 
 }

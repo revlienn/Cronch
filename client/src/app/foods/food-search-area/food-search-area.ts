@@ -15,7 +15,7 @@ import { SearchResultList } from '../search-result-list/search-result-list';
 })
 export class FoodSearchArea {
 
-  private foodService=inject(FoodService);
+  protected foodService=inject(FoodService);
   searchResult=signal<FoodSearchResult|null>(null)
   searched=signal<boolean>(false);
 

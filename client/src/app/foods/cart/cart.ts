@@ -32,6 +32,7 @@ export class Cart {
     const mainCart = document.getElementById('maincart');
     if (!mainCart) return;
     this.cartOpen = !this.cartOpen;
+    this.foodService.cartToggleSignal();
 
     if (this.cartOpen) {
       setTimeout(() => {
