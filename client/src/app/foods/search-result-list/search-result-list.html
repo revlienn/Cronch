@@ -1,25 +1,36 @@
-@if(busyService.requestCount()===0){
-  @if(resultLength()===0){
-    <p class="italic text-red-500 text-lg">
-      No result, please check your search keyword
-    </p>
-    }@else if(lessThan100()){
-    <p class="text-xl font-bold text-gray-700">
-      {{ resultLength() }} results
-    </p>
-    }@else{
-    <p class="text-xl font-bold text-gray-700">
-      100+ results
-    </p>
-}}
+<div class="flex flex-col h-full border-2 border-red-500 overflow-y-auto items-center justify-center">
 
-
-@if(busyService.requestCount()>0){<div class="progress-6 mt-2"></div>}
-
-
-<div
-   class="grid gap-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-stretch overflow-y-auto overflow-x-hidden max-h-[70vh] shadow-xl">
-  @for(item of result()?.foods?.food;track item.food_id){
-  <app-food-card [item]="item" class="h-full"></app-food-card>
+  @if(busyService.madeReq()){
+    @if(busyService.requestCount()===0){
+      @if(resultLength()===0){
+      <p class="italic text-red-500 text-lg">
+        Please enter a valid search keyword
+      </p>
+      }
+      @else if(lessThan100()){
+      <p class="text-lg font-bold text-gray-600">
+        {{ resultLength() }} results
+      </p>
+      }
+      @else{
+      <p class="text-lg font-bold text-gray-600">
+        100+ results
+      </p>
+    }}
+  }@else if(!busyService.madeReq() && busyService.requestCount() === 0){
+  <p class="text-gray-600 italic">Welcome to Cronch, type a keyword to start</p>
   }
+
+  @if(busyService.requestCount()){<div class="progress-6 justify-center align-middle items-center"></div>}
+
+
+  @if(!busyService.requestCount()){
+  <div
+     class="grid gap-2 lg:grid-cols-2 md:grid-cols-2 grid-cols-1 items-stretch overflow-y-auto overflow-x-hidden shadow-xl w-full scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+    @for(item of result()?.foods?.food;track item.food_id){
+    <app-food-card [item]="item"></app-food-card>
+    }
+  </div>
+  }
+
 </div>

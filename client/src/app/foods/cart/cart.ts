@@ -1,6 +1,5 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FoodService } from '../../services/food-service';
-import { FoodCardFacts, FoodCartItem } from '../../../types/Food';
 
 @Component({
   selector: 'app-cart',
