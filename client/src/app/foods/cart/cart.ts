@@ -9,24 +9,43 @@ import { FoodService } from '../../services/food-service';
 })
 export class Cart {
 
-  protected foodService=inject(FoodService);
-  protected total=computed(()=>{
-    const cartItems=this.foodService.list();
-    return cartItems.reduce((totals,item)=>({
-      calories:totals.calories+item.calories,
-      protein:parseFloat((totals.protein+item.protein).toFixed(2))
+  protected foodService = inject(FoodService);
+  protected total = computed(() => {
+    const cartItems = this.foodService.list();
+    return cartItems.reduce((totals, item) => ({
+      calories: totals.calories + item.calories,
+      protein: parseFloat((totals.protein + item.protein).toFixed(2))
     }),
-    {calories:0,protein:0}
-  )
+      { calories: 0, protein: 0 }
+    )
   })
+  cartOpen = false;
 
-  constructor(){
+  constructor() {
   }
 
-  deleteGroup(id:number){
+  deleteGroup(id: number) {
     this.foodService.deleteGroup(id);
+  }
+
+  toggleCart() {
+    const mainCart = document.getElementById('maincart');
+    if (!mainCart) return;
+    this.cartOpen = !this.cartOpen;
+
+    if (this.cartOpen) {
+      setTimeout(() => {
+      mainCart.classList.remove('hidden');
+    }, 150);
+      mainCart.classList.remove('translate-y-full');
+      mainCart.classList.add('translate-y-0');
+    } else {
+      mainCart.classList.add('translate-y-full');
+      mainCart.classList.remove('translate-y-0');
+      setTimeout(() => {
+      mainCart.classList.add('hidden');
+    }, 150);
+    }
   }
 }
 
-// CART LAYOUT
-// CARD LAYOUT

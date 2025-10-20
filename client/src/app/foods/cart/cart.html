@@ -1,4 +1,6 @@
-<div class="flex flex-col h-full">
+<div
+   class="hidden md:flex md:flex-col md:h-full transition-transform duration-500 ease-in-out transform translate-y-full md:translate-y-0 max-h-[50vh] overflow-y-auto"
+   id="maincart">
    <h5 class="text-center text-gray-800">Food Diary</h5>
    <div class="flex flex-col flex-grow overflow-x-hidden">
       @if(foodService.list().length!=0){
@@ -47,8 +49,10 @@
 
          <!-- TOTAL -->
          <div class="flex flex-col p-2 bottom-0 drop-shadow-lg total">
-            <span class="text-rose-600 font-semibold">{{total().calories}}cal</span>
-            <span class="text-blue-500 font-semibold">{{total().protein}}g protein</span>
+            <div class="hidden md:flex"><span class="text-rose-600 font-semibold me-3">{{total().calories}}cal</span>
+               <span class="text-blue-500 font-semibold">{{total().protein}}g protein</span>
+            </div>
+
             <div
                class="border-rose-400 border-1 w-full flex items-center justify-center gap-2 p-2 text-rose-500 hover:bg-rose-600 hover:text-white rounded-xl"
                (click)="foodService.clearList()">
@@ -71,4 +75,32 @@
 
 
    </div>
+</div>
+
+
+
+<div class="flex md:hidden justify-between items-center">
+   <div class="flex justify-between"><span class="text-rose-600 font-semibold pe-2">{{total().calories}}cal</span>
+      <span class="text-blue-500 font-semibold">{{total().protein}}g protein</span>
+   </div>
+
+   <div class="flex items-center justify-center gap-2 p-2 text-rose-500 hover:bg-rose-600 hover:text-white"
+      (click)="toggleCart()">
+
+      @if(!cartOpen){<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+         stroke="currentColor" class="size-6">
+         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 18.75 7.5-7.5 7.5 7.5" />
+         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 12.75 7.5-7.5 7.5 7.5" />
+      </svg>
+      Expand}@else{
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+         class="size-6">
+         <path stroke-linecap="round" stroke-linejoin="round" d="m4.5 5.25 7.5 7.5 7.5-7.5m-15 6 7.5 7.5 7.5-7.5" />
+      </svg>Collapse
+
+      }
+
+
+   </div>
+
 </div>
