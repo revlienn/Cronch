@@ -19,7 +19,7 @@ export class Cart {
       { calories: 0, protein: 0 }
     )
   })
-  cartOpen = false;
+  cartOpen = this.foodService.cartOpen();
 
   constructor() {
   }

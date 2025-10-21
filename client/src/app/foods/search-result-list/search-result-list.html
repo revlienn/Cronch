@@ -1,9 +1,11 @@
-<div class="flex flex-col flex-grow h-full
+<div class="flex flex-col flex-grow md:h-full 
   overflow-y-auto
   items-center justify-center 
+  transition-all ease-in-out duration-500
   z-1
-  border-2 border-red-500"
-  [class.h-[35vh]]="foodService.cartOpen()"
+  border-2 border-red-500 border-dashed"
+  [class.h-[40vh]]="foodService.cartOpen()"
+  [class.h-[80vh]]="!foodService.cartOpen()"
   >
 
   @if(busyService.madeReq()){

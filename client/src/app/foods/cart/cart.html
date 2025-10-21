@@ -1,5 +1,5 @@
 <div
-   class="hidden md:flex md:flex-col md:h-full transition-transform duration-500 ease-in-out transform translate-y-full md:translate-y-0 h-[40vh] overflow-y-auto"
+   class="hidden md:flex md:flex-col md:h-full transition-shadow duration-500 ease-in-out transform translate-y-full md:translate-y-0 h-[40vh] overflow-y-auto"
    id="maincart">
    <h5 class="text-center text-gray-800">Food Diary</h5>
    <div class="flex flex-col flex-grow overflow-x-hidden">
@@ -84,7 +84,10 @@
 
 
 
-<div class="flex md:hidden justify-between items-center">
+<div class="flex flex-grow
+md:hidden justify-between items-center
+transition-shadow ease-in-out duration-500"
+[class.border-t-1]="foodService.cartOpen()">
    <div class="flex justify-between"><span class="text-rose-600 font-semibold pe-2">{{total().calories}}cal</span>
       <span class="text-blue-500 font-semibold">{{total().protein}}g protein</span>
    </div>
