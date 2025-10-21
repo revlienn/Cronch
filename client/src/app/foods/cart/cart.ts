@@ -48,5 +48,9 @@ export class Cart {
     }, 150);
     }
   }
+
+  recordDiary(){
+    console.log(`Added to list`,this.foodService.list());
+  }
 }
 
