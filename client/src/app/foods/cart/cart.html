@@ -1,12 +1,17 @@
 <div
-   class="hidden md:flex md:flex-col md:h-full transition-transform duration-500 ease-in-out transform translate-y-full md:translate-y-0 max-h-[40vh] overflow-y-auto"
+   class="hidden md:flex md:flex-col md:h-full transition-transform duration-500 ease-in-out transform translate-y-full md:translate-y-0 h-[40vh] overflow-y-auto"
    id="maincart">
    <h5 class="text-center text-gray-800">Food Diary</h5>
    <div class="flex flex-col flex-grow overflow-x-hidden">
       @if(foodService.list().length!=0){
-      <div class="flex flex-col flex-grow justify-between text-sm overflow-hidden">
+      <div class="flex flex-col flex-grow justify-between text-sm 
+      overflow-hidden">
+         <!-- ITEMS -->
          <div
-            class="p-2 flex-col flex-grow overflow-x-hidden overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent">
+            class="flex-col flex-grow 
+            overflow-x-hidden overflow-y-auto 
+            scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent
+            p-2">
             @for(item of foodService.groupedList();track item.id){
             <div class="flex flex-col py-2.5 border-b-1 border-gray-400 ps-2">
 
