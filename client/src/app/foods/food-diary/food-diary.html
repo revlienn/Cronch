@@ -1,1 +1,7 @@
-<p>food-diary works!</p>
+@if(foodService.list()){
+   <ul>
+      @for(food of foodService.list();track $index){
+      <li>{{food.name}} - {{food.timestamp}}</li>
+}
+   </ul>
+}
