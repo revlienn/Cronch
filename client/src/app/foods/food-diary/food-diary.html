@@ -1,10 +1,11 @@
-@if(foodTimeGrouped()){
+@if(dates().length){
    <ul>
       @for(date of dates();track $index){
       {{date}}<br>
       @for(item of foodTimeGrouped()[date];track $index){
-         {{item.name}}<br>
-      }
-}
+         {{item.name}}--{{item.quantity}}<br>
+      }}
    </ul>
+}@else{
+   <span>Nothing to see</span>
 }

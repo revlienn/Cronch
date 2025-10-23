@@ -60,11 +60,13 @@ export class FoodService {
         quantity: 1,
         name: item.name,
         protein: item.protein,
-        calories: item.calories
+        calories: item.calories,
+        timestamp:new Date()
       }))
     }
 
     this.groupedList.set(currentGroupedItems);
+    console.log(this.groupedList());
   }
 
   deleteGroup(id: number) {
@@ -128,6 +130,12 @@ export class FoodService {
 
   cartToggleSignal(){
     this.cartOpen.update(status=>!status);
+  }
+
+  getItemQuantity(id:number){
+    const item=this.groupedList().filter((item)=>item.id===id)[0];
+    return item.quantity;
+
   }
 
 }

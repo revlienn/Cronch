@@ -52,4 +52,5 @@ export type FoodCartItem={
    quantity:number
    calories:number
    protein:number
+   timestamp:Date
 }

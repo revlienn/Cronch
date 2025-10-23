@@ -1,6 +1,6 @@
 import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { FoodService } from '../../services/food-service';
-import { FoodCardFacts } from '../../../types/Food';
+import { FoodCartItem } from '../../../types/Food';
 
 @Component({
   selector: 'app-food-diary',
@@ -11,15 +11,15 @@ import { FoodCardFacts } from '../../../types/Food';
 export class FoodDiary {
 
   protected foodService = inject(FoodService);
-  protected foodTimeGrouped = signal<Record<string, FoodCardFacts[]>>({});
+  protected foodTimeGrouped = signal<Record<string, FoodCartItem[]>>({});
   protected dates=signal<string[]>([]);
 
   constructor() {
 
 
     effect(() => {
-      const items = this.foodService.list();
-      const grouped: Record<string, FoodCardFacts[]> = ({});
+      const items = this.foodService.groupedList();
+      const grouped: Record<string, FoodCartItem[]> = ({});
 
       for (const item of items) {
 
@@ -32,6 +32,10 @@ export class FoodDiary {
 
       this.foodTimeGrouped.set(grouped);
       this.dates.set(Object.keys(this.foodTimeGrouped()));
+
+      for(const item of this.foodService.list()){
+        console.log(`${item.name}`,this.foodService.getItemQuantity(item.id));
+      }
 
     })
   }
