@@ -43,6 +43,7 @@ export class FoodService {
 
   addItemtoList(newItem: FoodCardFacts) {
     this.list.update((currentList) => [...currentList, newItem])
+    console.log(this.list());
     this.updateCartGroup();
   }
 

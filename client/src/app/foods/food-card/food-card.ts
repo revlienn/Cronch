@@ -16,6 +16,8 @@ export class FoodCard implements OnInit {
   protected itemDetails!:FoodCardFacts;
   private foodService=inject(FoodService);
 
+  today=new Date()
+
   ngOnInit(): void {
     this.getDetails(this.item().food_description);
   }
@@ -35,7 +37,8 @@ export class FoodCard implements OnInit {
       calories: calMatch ? Number(calMatch[1]) : 0,
       protein: proteinMatch ? parseFloat(proteinMatch[1].replace(',', '.')) : 0,
       fat: fatMatch ? parseFloat(fatMatch[1].replace(',', '.')) : 0,
-      carbs: carbsMatch ? parseFloat(carbsMatch[1].replace(',', '.')) : 0
+      carbs: carbsMatch ? parseFloat(carbsMatch[1].replace(',', '.')) : 0,
+      timestamp: new Date()
     }
   }
 

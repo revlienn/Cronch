@@ -43,6 +43,7 @@ export type FoodCardFacts={
    fat:number
    carbs:number
    brand?:string
+   timestamp:Date
 }
 
 export type FoodCartItem={
