@@ -11,7 +11,8 @@ import { FoodCardFacts } from '../../../types/Food';
 export class FoodDiary {
 
   protected foodService = inject(FoodService);
-  private foodTimeGrouped = signal<Record<string, FoodCardFacts[]>>({});
+  protected foodTimeGrouped = signal<Record<string, FoodCardFacts[]>>({});
+  protected dates=signal<string[]>([]);
 
   constructor() {
 
@@ -30,7 +31,7 @@ export class FoodDiary {
       }
 
       this.foodTimeGrouped.set(grouped);
-      console.log(grouped);
+      this.dates.set(Object.keys(this.foodTimeGrouped()));
 
     })
   }

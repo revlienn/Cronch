@@ -1,7 +1,10 @@
-@if(foodService.list()){
+@if(foodTimeGrouped()){
    <ul>
-      @for(food of foodService.list();track $index){
-      <li>{{food.name}} - {{food.timestamp}}</li>
+      @for(date of dates();track $index){
+      {{date}}<br>
+      @for(item of foodTimeGrouped()[date];track $index){
+         {{item.name}}<br>
+      }
 }
    </ul>
 }
