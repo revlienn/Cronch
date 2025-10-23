@@ -1,5 +1,6 @@
 import { Component, computed, effect, inject, signal } from '@angular/core';
 import { FoodService } from '../../services/food-service';
+import { ToastService } from '../../services/toast-service';
 
 @Component({
   selector: 'app-cart',
@@ -10,6 +11,8 @@ import { FoodService } from '../../services/food-service';
 export class Cart {
 
   protected foodService = inject(FoodService);
+  private toastService=inject(ToastService);
+
   protected total = computed(() => {
     const cartItems = this.foodService.list();
     return cartItems.reduce((totals, item) => ({
@@ -51,6 +54,7 @@ export class Cart {
 
   recordDiary(){
     console.log(`Added to list`,this.foodService.list());
+    this.toastService.success('Success, added to diary <a href="/diary" class="underline ml-1 text-white italic">View diary</a>')
   }
 }
 
