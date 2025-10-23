@@ -53,7 +53,7 @@ export class Cart {
   }
 
   recordDiary(){
-    console.log(`Added to list`,this.foodService.list());
+    this.foodService.addToDiary();
     this.toastService.success('Success, added to diary <a href="/diary" class="underline ml-1 text-white italic">View diary</a>')
   }
 }

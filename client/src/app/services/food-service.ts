@@ -20,14 +20,14 @@ export class FoodService {
   public cartOpen=signal<boolean>(false);
 
   constructor() {
-    const storedList = localStorage.getItem('items');
+    const storedList = localStorage.getItem('unsavedCartItems');
     if (storedList) {
       this.list.set(JSON.parse(storedList));
       this.updateCartGroup();
     }
 
     effect(() => {
-      localStorage.setItem('items', JSON.stringify(this.list()));
+      localStorage.setItem('unsavedCartItems', JSON.stringify(this.list()));
     })
   }
 
@@ -43,7 +43,6 @@ export class FoodService {
 
   addItemtoList(newItem: FoodCardFacts) {
     this.list.update((currentList) => [...currentList, newItem])
-    console.log(this.list());
     this.updateCartGroup();
   }
 
@@ -66,7 +65,6 @@ export class FoodService {
     }
 
     this.groupedList.set(currentGroupedItems);
-    console.log(this.groupedList());
   }
 
   deleteGroup(id: number) {
@@ -132,10 +130,21 @@ export class FoodService {
     this.cartOpen.update(status=>!status);
   }
 
-  getItemQuantity(id:number){
-    const item=this.groupedList().filter((item)=>item.id===id)[0];
-    return item.quantity;
+  addToDiary(){
+    const existing=localStorage.getItem('diary');
+    let parsedDiary:FoodCartItem[]=[];
 
+    if(existing){
+      parsedDiary=JSON.parse(existing) as FoodCartItem[];
+    }
+
+    const updatedDiary=[...parsedDiary,...this.groupedList()];
+    localStorage.setItem('diary',JSON.stringify(updatedDiary));
+
+    localStorage.removeItem('unsavedCartItems');
+    this.list.set([]);
+    this.groupedList.set([]);
   }
+
 
 }

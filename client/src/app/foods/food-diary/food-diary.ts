@@ -12,17 +12,19 @@ export class FoodDiary {
 
   protected foodService = inject(FoodService);
   protected foodTimeGrouped = signal<Record<string, FoodCartItem[]>>({});
-  protected dates=signal<string[]>([]);
+  protected dates = signal<string[]>([]);
 
   constructor() {
 
 
     effect(() => {
-      const items = this.foodService.groupedList();
+      const items = localStorage.getItem('diary');
+      if(!items) return;
+      let parsedDiary: FoodCartItem[] = JSON.parse(items);
       const grouped: Record<string, FoodCartItem[]> = ({});
 
-      for (const item of items) {
-
+      for (const item of parsedDiary) {
+        console.log(item);
         const dateKey = new Date(item.timestamp).toISOString().split('T')[0];
         if (!grouped[dateKey]) {
           grouped[dateKey] = []
@@ -33,10 +35,8 @@ export class FoodDiary {
       this.foodTimeGrouped.set(grouped);
       this.dates.set(Object.keys(this.foodTimeGrouped()));
 
-      for(const item of this.foodService.list()){
-        console.log(`${item.name}`,this.foodService.getItemQuantity(item.id));
-      }
-
     })
+
+
   }
 }
