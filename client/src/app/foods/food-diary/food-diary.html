@@ -4,7 +4,10 @@
 <div class="flex flex-col lg:flex-row gap-3 border-2 border-amber-300">
    @for(date of dates();track $index){
    <div class="flex flex-col border border-gray-400 lg:w-1/2 py-4 px-2">
-      {{date}}<br>
+      <span class="text-lg font-semibold mb-2">{{date}}-</span>
+      <div><span class="text-sm text-rose-600 italic pe-3">{{dailyTotals()[date]?.calories}}cal</span>
+      <span class="text-sm text-blue-500 italic">{{dailyTotals()[date]?.protein}}gr</span></div>
+      
       @for(item of foodTimeGrouped()[date];track $index){
       <div class="flex-col">
          <span class="text-md">{{item.name}}</span>
