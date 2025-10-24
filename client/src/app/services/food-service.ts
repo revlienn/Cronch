@@ -4,6 +4,7 @@ import { environment } from '../../environments/environment';
 import { Food, FoodCardFacts, FoodCartItem } from '../../types/Food';
 import { FoodSearchResult } from '../../types/FoodSearchResult';
 import { FoodCard } from '../foods/food-card/food-card';
+import { disableDebugTools } from '@angular/platform-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,9 @@ export class FoodService {
 
   public list = signal<FoodCardFacts[]>([]);
   public groupedList = signal<FoodCartItem[]>([]);
-  public cartOpen=signal<boolean>(false);
+  public cartOpen = signal<boolean>(false);
+
+  public diary=signal<FoodCartItem[]>([]);
 
   constructor() {
     const storedList = localStorage.getItem('unsavedCartItems');
@@ -26,8 +29,14 @@ export class FoodService {
       this.updateCartGroup();
     }
 
+    const localDiary=localStorage.getItem('diary');
+    if(localDiary){
+      this.diary.set(JSON.parse(localDiary) as FoodCartItem[]);
+    }
+
     effect(() => {
       localStorage.setItem('unsavedCartItems', JSON.stringify(this.list()));
+      localStorage.setItem('diary',JSON.stringify(this.diary()))
     })
   }
 
@@ -60,7 +69,7 @@ export class FoodService {
         name: item.name,
         protein: item.protein,
         calories: item.calories,
-        timestamp:new Date()
+        timestamp: new Date()
       }))
     }
 
@@ -76,43 +85,43 @@ export class FoodService {
   adjustCartItemQty(type: string, id: number) {
     const groupListCopy = this.groupedList();
     const itemInGroup = groupListCopy.find(group => group.id === id);
-    
-    const listCopy=this.list();
+
+    const listCopy = this.list();
     const itemInList = listCopy.find(item => item.id === id);
 
     if (itemInGroup && itemInList) {
       if (type == 'add') {
-        
-        const updatedGroupList=groupListCopy.map((group)=>
-          group.id===id?
-            {...group,quantity:group.quantity+1}
-            :group)
+
+        const updatedGroupList = groupListCopy.map((group) =>
+          group.id === id ?
+            { ...group, quantity: group.quantity + 1 }
+            : group)
 
         this.groupedList.set(updatedGroupList);
-        this.list.update(cur=>[...cur,itemInList]);
+        this.list.update(cur => [...cur, itemInList]);
 
       }
       else if (type == 'min') {
 
         if (itemInGroup.quantity <= 1) {
-          const updatedGroupList=groupListCopy.filter((group)=>group.id!==id);
+          const updatedGroupList = groupListCopy.filter((group) => group.id !== id);
           this.groupedList.set(updatedGroupList);
 
-          const updatedList=listCopy.filter(item=>item.id!==id);
+          const updatedList = listCopy.filter(item => item.id !== id);
           this.list.set(updatedList);
-        } 
-        else{
-          const updatedGroupList=groupListCopy.map((group)=>
-            group.id===id?
-              {...group,quantity:group.quantity-1}
-              :group)
+        }
+        else {
+          const updatedGroupList = groupListCopy.map((group) =>
+            group.id === id ?
+              { ...group, quantity: group.quantity - 1 }
+              : group)
           this.groupedList.set(updatedGroupList);
 
-          const updatedList=(()=>{
+          const updatedList = (() => {
             const itemIndex = listCopy.indexOf(itemInList);
-            if(itemIndex!==-1){
-              return [...listCopy.slice(0,itemIndex),...listCopy.slice(itemIndex+1)]
-            }else{
+            if (itemIndex !== -1) {
+              return [...listCopy.slice(0, itemIndex), ...listCopy.slice(itemIndex + 1)]
+            } else {
               return listCopy;
             }
           })();
@@ -126,24 +135,59 @@ export class FoodService {
     this.list.set([]);
   }
 
-  cartToggleSignal(){
-    this.cartOpen.update(status=>!status);
+  cartToggleSignal() {
+    this.cartOpen.update(status => !status);
   }
 
-  addToDiary(){
-    const existing=localStorage.getItem('diary');
-    let parsedDiary:FoodCartItem[]=[];
+  addToDiary() {
+    const existing = localStorage.getItem('diary');
+    let parsedDiary: FoodCartItem[] = [];
 
-    if(existing){
-      parsedDiary=JSON.parse(existing) as FoodCartItem[];
+    if (existing) {
+      parsedDiary = JSON.parse(existing) as FoodCartItem[];
     }
 
-    const updatedDiary=[...parsedDiary,...this.groupedList()];
-    localStorage.setItem('diary',JSON.stringify(updatedDiary));
+    const updatedDiary = [...parsedDiary, ...this.groupedList()];
+    this.diary.set(updatedDiary);
+    localStorage.setItem('diary', JSON.stringify(updatedDiary));
 
     localStorage.removeItem('unsavedCartItems');
     this.list.set([]);
     this.groupedList.set([]);
+  }
+
+  adjustDiaryItemQty(id: number, newQty: number) {
+
+    const parsedRecord: FoodCartItem[] =
+      JSON.parse(localStorage.getItem('diary') || '[]') as FoodCartItem[];
+
+    const newRecord = parsedRecord
+      .map((item) =>
+        item.id === id ?
+          { ...item, quantity: newQty } :
+          item)
+      .filter(item => item.quantity > 0)
+
+    this.diary.set(newRecord);
+    localStorage.setItem('diary', JSON.stringify(newRecord));
+
+    
+    // let parsedRecord:FoodCartItem[]=[];
+
+    // const record=localStorage.getItem('diary');
+    // if(record){
+    //   parsedRecord=JSON.parse(record) as FoodCartItem[];
+    // }
+
+    // let recordItem=parsedRecord.find(item=>item.id===id);
+    // if(recordItem) recordItem.quantity=newQty;
+
+    // let recordItems=parsedRecord.filter(item=>item.id!==id);
+
+    //const updatedRecord=JSON.stringify([...recordItems,recordItem]);
+
+    //localStorage.setItem('diary',JSON.stringify(updatedRecord));
+
   }
 
 

@@ -2,6 +2,18 @@ import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { FoodService } from '../../services/food-service';
 import { FoodCartItem } from '../../../types/Food';
 
+interface IDayText{
+  [key:number]:string
+}
+
+const DayText:IDayText={
+  0:'Sunday',
+  1:'Monday',
+  2:'Tuesday',
+  3:'Wednesday',
+  5:'Friday'
+};
+
 @Component({
   selector: 'app-food-diary',
   imports: [],
@@ -18,14 +30,17 @@ export class FoodDiary {
 
 
     effect(() => {
-      const items = localStorage.getItem('diary');
+      const items = this.foodService.diary();
       if(!items) return;
-      let parsedDiary: FoodCartItem[] = JSON.parse(items);
       const grouped: Record<string, FoodCartItem[]> = ({});
 
-      for (const item of parsedDiary) {
-        console.log(item);
-        const dateKey = new Date(item.timestamp).toISOString().split('T')[0];
+      for (const item of items) {
+        const dateKey = new Date(item.timestamp).toLocaleDateString('en-gb',{
+          day:'numeric',
+          month:'short',
+          year:'2-digit',
+          weekday:'short'
+        })
         if (!grouped[dateKey]) {
           grouped[dateKey] = []
         }
@@ -34,9 +49,12 @@ export class FoodDiary {
 
       this.foodTimeGrouped.set(grouped);
       this.dates.set(Object.keys(this.foodTimeGrouped()));
-
     })
 
 
+  }
+
+  adjustDiaryItemQty(id:number,newQty:string){
+    return this.foodService.adjustDiaryItemQty(id,Number(newQty))
   }
 }
