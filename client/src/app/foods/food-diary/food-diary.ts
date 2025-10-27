@@ -26,6 +26,7 @@ export class FoodDiary {
   protected foodTimeGrouped = signal<Record<string, FoodCartItem[]>>({});
   protected dates = signal<string[]>([]);
   protected dailyTotals = signal<Record<string, { calories: number, protein: number }>>({});
+  protected editingDate=signal<string|null>(null);
 
   constructor() {
 
@@ -64,5 +65,18 @@ export class FoodDiary {
 
   adjustDiaryItemQty(id: number, newQty: string) {
     return this.foodService.adjustDiaryItemQty(id, Number(newQty))
+  }
+
+  editDiaryCard(date:string){
+    console.log(date);
+    this.toggleEdit(date);
+  }
+
+  toggleEdit(date:string){
+    if(this.editingDate()===date){
+      this.editingDate.set(null)
+    }else {
+    this.editingDate.set(date); 
+  }
   }
 }
