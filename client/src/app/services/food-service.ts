@@ -160,6 +160,7 @@ export class FoodService {
 
     const parsedRecord: FoodCartItem[] =
       JSON.parse(localStorage.getItem('diary') || '[]') as FoodCartItem[];
+    const itemOldQty=parsedRecord.filter(item=>item.id===id).map(item=>item.quantity);
 
     const newRecord = parsedRecord
       .map((item) =>
@@ -170,23 +171,6 @@ export class FoodService {
 
     this.diary.set(newRecord);
     localStorage.setItem('diary', JSON.stringify(newRecord));
-
-    
-    // let parsedRecord:FoodCartItem[]=[];
-
-    // const record=localStorage.getItem('diary');
-    // if(record){
-    //   parsedRecord=JSON.parse(record) as FoodCartItem[];
-    // }
-
-    // let recordItem=parsedRecord.find(item=>item.id===id);
-    // if(recordItem) recordItem.quantity=newQty;
-
-    // let recordItems=parsedRecord.filter(item=>item.id!==id);
-
-    //const updatedRecord=JSON.stringify([...recordItems,recordItem]);
-
-    //localStorage.setItem('diary',JSON.stringify(updatedRecord));
 
   }
 

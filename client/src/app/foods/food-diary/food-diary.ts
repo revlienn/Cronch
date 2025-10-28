@@ -1,6 +1,8 @@
 import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { FoodService } from '../../services/food-service';
 import { FoodCartItem } from '../../../types/Food';
+import { RouterLink } from '@angular/router';
+import { ToastService } from '../../services/toast-service';
 
 interface IDayText {
   [key: number]: string
@@ -16,13 +18,14 @@ const DayText: IDayText = {
 
 @Component({
   selector: 'app-food-diary',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './food-diary.html',
   styleUrl: './food-diary.css'
 })
 export class FoodDiary {
 
   protected foodService = inject(FoodService);
+  private toastService=inject(ToastService);
   protected foodTimeGrouped = signal<Record<string, FoodCartItem[]>>({});
   protected dates = signal<string[]>([]);
   protected dailyTotals = signal<Record<string, { calories: number, protein: number }>>({});
@@ -64,19 +67,27 @@ export class FoodDiary {
   }
 
   adjustDiaryItemQty(id: number, newQty: string) {
+
     return this.foodService.adjustDiaryItemQty(id, Number(newQty))
   }
 
   editDiaryCard(date:string){
-    console.log(date);
     this.toggleEdit(date);
   }
 
   toggleEdit(date:string){
     if(this.editingDate()===date){
-      this.editingDate.set(null)
+      this.editingDate.set(null);
+    this.toastService.success('Diary updated')
     }else {
     this.editingDate.set(date); 
   }
   }
 }
+
+
+// signal to store new value
+// user click save, execute foodService.adjustDiaryItemQty
+// foodService.adjustDiaryItemQty, compare old value and new value
+// -- same == toastService info > no changes
+// -- different == toastService success > changes saved success
