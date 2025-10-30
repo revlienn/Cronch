@@ -4,7 +4,7 @@ import { Cart } from '../foods/cart/cart';
 
 @Component({
   selector: 'app-home',
-  imports: [FoodSearchArea, Cart],
+  imports: [FoodSearchArea],
   templateUrl: './home.html',
   styleUrl: './home.css'
 })

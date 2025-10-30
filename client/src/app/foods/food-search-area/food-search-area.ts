@@ -6,10 +6,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { FoodService } from '../../services/food-service';
 import { FoodSearchResult } from '../../../types/FoodSearchResult';
 import { SearchResultList } from '../search-result-list/search-result-list';
+import { Cart } from '../cart/cart';
 
 @Component({
   selector: 'app-food-search-area',
-  imports: [MatCardModule, MatInputModule, MatIconModule, ReactiveFormsModule, SearchResultList],
+  imports: [MatCardModule, MatInputModule, MatIconModule, ReactiveFormsModule, SearchResultList,Cart],
   templateUrl: './food-search-area.html',
   styleUrl: './food-search-area.css'
 })
